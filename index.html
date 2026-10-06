@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sined | Plataforma Interactiva</title>
+    <style>
+        :root {
+            --bg-color: #07090e;
+            --sidebar-bg: #0b0f19;
+            --card-bg: #131b2e;
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --accent-color: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --border-color: #1f293d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Panel Lateral (Sidebar) estilo Plataforma */
+        sidebar {
+            width: 320px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .brand h1 {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+        }
+
+        .brand p {
+            color: var(--accent-color);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .menu-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .menu-section h3 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .nav-btn {
+            display: block;
+            width: 100%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: white;
+            transform: translateX(4px);
+        }
+
+        /* Reproductor de música en el sidebar */
+        .music-widget {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: auto;
+        }
+
+        .music-widget h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .playlist-mini {
+            list-style: none;
+            max-height: 100px;
+            overflow-y: auto;
+            margin-bottom: 0.5rem;
+        }
+
+        .playlist-mini li {
+            font-size: 0.8rem;
+            padding: 0.3rem 0.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            border-radius: 4px;
+        }
+
+        .playlist-mini li:hover, .playlist-mini li.active {
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--text-primary);
+        }
+
+        audio {
+            width: 100%;
+            height: 32px;
+            margin-top: 0.5rem;
+        }
+
+        /* Área Principal / Visor de la App */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: var(--bg-color);
+        }
+
+        .topbar {
+            padding: 1rem 2rem;
+            background-color: var(--sidebar-bg);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topbar h2 {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .viewer-container {
+            flex: 1;
+            width: 100%;
+            height: calc(100vh - 65px);
+            background-color: #000;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Vista de Bienvenida por defecto */
+        .welcome-view {
+            padding: 3rem;
+            max-width: 700px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .welcome-view h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .welcome-view p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PANEL LATERAL DE LA PLATAFORMA -->
+    <sidebar>
+        <div class="brand">
+            <h1>Sined</h1>
+            <p>Plataforma &middot; OS</p>
+        </div>
+
+        <div class="menu-section">
+            <h3>Aplicaciones y Proyectos</h3>
+            <button class="nav-btn active" onclick="loadApp('welcome', 'Bienvenida', this)">🏠 Inicio / Panel</button>
+            <button class="nav-btn" onclick="loadApp('https://bright-heliotrope-05dc6f.netlify.app', 'Emoción Activa', this)">✨ Emoción Activa</button>
+            <button class="nav-btn" onclick="loadApp('https://pipadens.github.io/kallpa/', 'Kallpa (Comunidad Educativa)', this)">📚 Kallpa</button>
+            <button class="nav-btn" onclick="loadApp('https://pipadens.github.io/Sistema-de-Atenci-n-y-Seguimiento-Ciudadano-SASC-/', 'SASC Morelos', this)">🛡️ SASC Morelos</button>
+            <button class="nav-btn" onclick="loadApp('https://pipadens.github.io/scp-sistema-de-control/', 'Constru Materiales Center (SCP)', this)">📊 Control de Pérdidas</button>
+        </div>
+
+        <!-- Reproductor Integrado -->
+        <div class="music-widget">
+            <h4>🎵 Producción Musical</h4>
+            <ul class="playlist-mini" id="playlist">
+                <li data-src="audio/manos-libres.mp3" class="active">Manos Libres</li>
+                <li data-src="audio/aguas-turbias.mp3">Aguas turbias</li>
+                <li data-src="audio/mente-en-blanco.mp3">Mente en blanco</li>
+                <li data-src="audio/dejarte-ir.mp3">Dejarte ir</li>
+                <li data-src="audio/amo-el-arte.mp3">Amo el arte</li>
+            </ul>
+            <audio id="audioPlayer" controls>
+                <source src="audio/manos-libres.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+    </sidebar>
+
+    <!-- PANTALLA PRINCIPAL DONDE SE CARGAN LAS APPS -->
+    <main>
+        <div class="topbar">
+            <h2 id="appTitle">Panel de Control / Inicio</h2>
+            <span style="font-size: 0.85rem; color: var(--text-secondary);">Cuernavaca, Morelos</span>
+        </div>
+        <div class="viewer-container" id="viewerArea">
+            <div class="welcome-view">
+                <h2>Bienvenida a tu Plataforma</h2>
+                <p>Selecciona cualquiera de tus aplicaciones en el menú de la izquierda para desplegarlas y utilizarlas en tiempo real sin abandonar este entorno. La música seguirá sonando mientras navegas por tus herramientas.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Función para cargar aplicaciones dentro del visor de la plataforma
+        function loadApp(url, title, buttonElement) {
+            // Actualizar título superior
+            document.getElementById('appTitle').innerText = title;
+
+            // Actualizar botones activos en el menú
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            buttonElement.classList.add('active');
+
+            const viewerArea = document.getElementById('viewerArea');
+
+            if (url === 'welcome') {
+                viewerArea.innerHTML = `
+                    <div class="welcome-view">
+                        <h2>Bienvenida a tu Plataforma</h2>
+                        <p>Selecciona cualquiera de tus aplicaciones en el menú de la izquierda para desplegarlas y utilizarlas en tiempo real sin abandonar este entorno.</p>
+                    </div>
+                `;
+            } else {
+                // Cargar la app dentro de un iframe integrado
+                viewerArea.innerHTML = `<iframe src="${url}"></iframe>`;
+            }
+        }
+
+        // Lógica del reproductor de música del panel lateral
+        const audioPlayer = document.getElementById('audioPlayer');
+        const playlistItems = document.querySelectorAll('#playlist li');
+
+        playlistItems.forEach(item => {
+            item.addEventListener('click', () => {
+                playlistItems.forEach(el => el.classList.remove('active'));
+                item.classList.add('active');
+                
+                const src = item.getAttribute('data-src');
+                audioPlayer.src = src;
+                audioPlayer.play().catch(error => {
+                    console.log("Audio pendiente de archivo local:", error);
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
